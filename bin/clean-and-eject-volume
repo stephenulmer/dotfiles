@@ -1,0 +1,15 @@
+#!/bin/zsh
+##
+CLEANME="._* .fseventsd .Spotlight-V100"
+
+if [[ $1 == /Volumes/* ]] ; then
+  echo "cleaning $1"
+  for d in ${CLEANME} ; do
+    if [ -e "$1/${d}" ] ; then
+      rm -rf "$1/${d}" && echo "  removed: ${d}"
+    fi
+  done
+  diskutil eject "$1" && echo "ejected $1"
+else
+  echo "No volume found for $1"
+fi
