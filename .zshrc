@@ -63,6 +63,14 @@ export PATH="${HOME}/bin:$PATH"
 
 
 ##
+## Use private homebrew if it exists
+##
+if [ -f ${HOME}/.homebrew/bin/brew ] ; then
+  eval "$(${HOME}/.homebrew/bin/brew shellenv)"
+fi
+
+
+##
 ## Enable Python, Ruby, Perl virtualenv shims
 ##
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
@@ -76,12 +84,4 @@ if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
 ##
 if [ -f ${HOME}/.config/op/plugins.sh ] ; then
   source ${HOME}/.config/op/plugins.sh
-fi
-
-
-##
-## Use private homebrew if it exists
-##
-if [ -f ${HOME}/.homebrew/bin/brew ] ; then
-  eval "$(${HOME}/.homebrew/bin/brew shellenv)"
 fi
