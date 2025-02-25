@@ -2,6 +2,7 @@
 [user]
 	name = Stephen Ulmer
 	email = ulmer@ulmer.org
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL678Vyxez0NwOwQ2EdHYuu57m4aIdLQDBonl4wnC1WX
 [push]
 	followTags = true
 [init]
@@ -43,3 +44,9 @@
 	repo = /Users/ulmer/Projects/msmo/ck-aap/project-bootstrap/inventory
 	repo = /Users/ulmer/Projects/msmo/ck-aap/project-lab
 	repo = /Users/ulmer/Projects/msmo/ck-aap/project-reports
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[commit]
+	gpgsign = true
