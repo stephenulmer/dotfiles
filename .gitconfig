@@ -22,6 +22,11 @@
 	path = ~/Projects/msmo/ck-aap/.gitconfig
 [alias]
 	root = "!git rev-parse --show-toplevel;"
+	setup-allowed-signers = "!sh -c ' \
+	  signers=$(git rev-parse --git-dir)/allowed_signers ; \
+	  echo "$(git config user.email) $(git config user.signingkey)" > ${signers} ; \
+          git config --local gpg.ssh.allowedSignersFile ${signers} ; \
+        '"
 [gpg]
 	format = ssh
 [gpg "ssh"]
