@@ -18,32 +18,10 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !gh auth git-credential
+[include]
+	path = ~/Projects/msmo/ck-aap/.gitconfig
 [alias]
 	root = "!git rev-parse --show-toplevel;"
-	ck = for-each-repo --config=ck.repo
-	ck-update = "!f() { \
-		ckroot=$(git-config --get ck.root) \
-		repos=$(find ${ckroot} -name .git) \
-		}; f"
-[ck]
-	root = ~/Projects/msmo/ck-aap
-	repo = ~/Projects/msmo/ck-aap/META
-	repo = ~/Projects/msmo/ck-aap/collection-ck-bootstrap
-	repo = ~/Projects/msmo/ck-aap/collection-ck-ops
-	repo = ~/Projects/msmo/ck-aap/collection-ck-protect
-	repo = ~/Projects/msmo/ck-aap/collection-ck-scale
-	repo = ~/Projects/msmo/ck-aap/collection-ck-setup
-	repo = ~/Projects/msmo/ck-aap/inventory-bootstrap-slu
-	repo = ~/Projects/msmo/ck-aap/inventory-ck1
-	repo = ~/Projects/msmo/ck-aap/inventory-ck2
-	repo = ~/Projects/msmo/ck-aap/inventory-ck3
-	repo = ~/Projects/msmo/ck-aap/inventory-ck4
-	repo = ~/Projects/msmo/ck-aap/lab-smc-aap
-	repo = ~/Projects/msmo/ck-aap/lab-smc-install
-	repo = ~/Projects/msmo/ck-aap/project-bootstrap
-	repo = ~/Projects/msmo/ck-aap/project-bootstrap/inventory
-	repo = ~/Projects/msmo/ck-aap/project-lab
-	repo = ~/Projects/msmo/ck-aap/project-reports
 [gpg]
 	format = ssh
 [gpg "ssh"]
