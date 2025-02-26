@@ -14,10 +14,10 @@
 	smudge = git-lfs smudge -- %f
 [credential "https://github.com"]
 	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
+	helper = !gh auth git-credential
 [credential "https://gist.github.com"]
 	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
+	helper = !gh auth git-credential
 [alias]
 	root = "!git rev-parse --show-toplevel;"
 	ck = for-each-repo --config=ck.repo
