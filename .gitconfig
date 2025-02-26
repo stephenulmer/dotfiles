@@ -26,24 +26,24 @@
 		repos=$(find ${ckroot} -name .git) \
 		}; f"
 [ck]
-	root = /Users/ulmer/Projects/msmo/ck-aap
-	repo = /Users/ulmer/Projects/msmo/ck-aap/META
-	repo = /Users/ulmer/Projects/msmo/ck-aap/collection-ck-bootstrap
-	repo = /Users/ulmer/Projects/msmo/ck-aap/collection-ck-ops
-	repo = /Users/ulmer/Projects/msmo/ck-aap/collection-ck-protect
-	repo = /Users/ulmer/Projects/msmo/ck-aap/collection-ck-scale
-	repo = /Users/ulmer/Projects/msmo/ck-aap/collection-ck-setup
-	repo = /Users/ulmer/Projects/msmo/ck-aap/inventory-bootstrap-slu
-	repo = /Users/ulmer/Projects/msmo/ck-aap/inventory-ck1
-	repo = /Users/ulmer/Projects/msmo/ck-aap/inventory-ck2
-	repo = /Users/ulmer/Projects/msmo/ck-aap/inventory-ck3
-	repo = /Users/ulmer/Projects/msmo/ck-aap/inventory-ck4
-	repo = /Users/ulmer/Projects/msmo/ck-aap/lab-smc-aap
-	repo = /Users/ulmer/Projects/msmo/ck-aap/lab-smc-install
-	repo = /Users/ulmer/Projects/msmo/ck-aap/project-bootstrap
-	repo = /Users/ulmer/Projects/msmo/ck-aap/project-bootstrap/inventory
-	repo = /Users/ulmer/Projects/msmo/ck-aap/project-lab
-	repo = /Users/ulmer/Projects/msmo/ck-aap/project-reports
+	root = ~/Projects/msmo/ck-aap
+	repo = ~/Projects/msmo/ck-aap/META
+	repo = ~/Projects/msmo/ck-aap/collection-ck-bootstrap
+	repo = ~/Projects/msmo/ck-aap/collection-ck-ops
+	repo = ~/Projects/msmo/ck-aap/collection-ck-protect
+	repo = ~/Projects/msmo/ck-aap/collection-ck-scale
+	repo = ~/Projects/msmo/ck-aap/collection-ck-setup
+	repo = ~/Projects/msmo/ck-aap/inventory-bootstrap-slu
+	repo = ~/Projects/msmo/ck-aap/inventory-ck1
+	repo = ~/Projects/msmo/ck-aap/inventory-ck2
+	repo = ~/Projects/msmo/ck-aap/inventory-ck3
+	repo = ~/Projects/msmo/ck-aap/inventory-ck4
+	repo = ~/Projects/msmo/ck-aap/lab-smc-aap
+	repo = ~/Projects/msmo/ck-aap/lab-smc-install
+	repo = ~/Projects/msmo/ck-aap/project-bootstrap
+	repo = ~/Projects/msmo/ck-aap/project-bootstrap/inventory
+	repo = ~/Projects/msmo/ck-aap/project-lab
+	repo = ~/Projects/msmo/ck-aap/project-reports
 [gpg]
 	format = ssh
 [gpg "ssh"]
