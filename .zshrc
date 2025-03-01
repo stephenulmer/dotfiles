@@ -18,9 +18,6 @@ setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_IGNORE_ALL_DUPS
 HISTSIZE=10000
 
-hgrep () { fc -Dlim "*$@*" 1 }
-
-
 ## zsh tab-completion options (more like bash)
 zstyle ':completion:*' insert-unambiguous true
 zstyle ':completion:*' path-completion false
@@ -49,6 +46,25 @@ nodotfilemode () {
   unset GIT_DIR
   unset GIT_WORK_TREE
   unset -f precmd
+}
+
+
+##
+## Helpful functions
+##
+
+## Grep entire history
+hgrep () { fc -Dlim "*$@*" 1 }
+
+## Remove a component from the curent PATH
+path_remove () { PATH=$(echo $PATH | tr "\n" "*" | tr ":" "\n" | grep -v $1 | tr "\n" ":" | cut -d "*" -f 1) }
+
+## Turn off pyenv in the current shell
+nopyenv () {
+  unset -f pyenv
+  unset -f _pyenv
+  unset -f _pyenv_virtualenv_hook
+  path_remove pyenv
 }
 
 
