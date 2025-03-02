@@ -1,0 +1,25 @@
+#!/bin/sh
+##
+## Clone all repos from a GitHub organization into .
+##
+
+GH=$(which gh)
+if [ $? != 0 ] ; then
+  echo "This script depends on the GitHub CLI (gh)"
+  exit
+fi
+
+if [ -n "$1" ] ; then
+  ORGANIZATION="$1"
+else
+  echo "GitHub Organizations"
+  ${GH} org list
+  echo ""
+  echo "usage: $0 GitHub-organization-name"
+  exit
+fi
+
+for repo in $(gh repo list ${ORGANIZATION} | cut -f1) ; do
+  url=$(gh repo view $repo --json sshUrl --jq '.sshUrl')
+  git clone $url
+done
