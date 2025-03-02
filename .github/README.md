@@ -18,10 +18,12 @@ You should make a repository of your own, but this is how I deploy this one:
 
 I've started to keep *all* of my key-type-things in 1Password. I recently discovered that 1Password would vault my SSH keys -- so I'm trying to do that with all of the key containing files so the keys never touch the file system unencrypted. This leads to several "helper" files and applications, and the configuration for those application will beincluded eventually.
 
+I used to have a private repo, not hosted anywhere and transported with `git bundle`, that contained some cleartext keys. This public repo was started from a new `git init` and contains none of that history. If keys in here are unavoidable, I'll look into git-crypt and store the symmetric key in 1Password.
+
 
 ## Known Defects
 
-The `dotfilemore` and `nodotfilemode` functions (in the `.zshrc`) use `GIT_GIR=${HOME}/.dotfiles`. There is no technical linkage betwen those functions and the above instructions, so if you need a different name or location you will have to change both. This is a chiken/egg problem that would require a file edit and commmit during the setup to solve. In my opinion, not worth it.
+The `dotfilemore` and `nodotfilemode` functions (in the `.zshrc`) use `GIT_GIR=${HOME}/.dotfiles`. There is no technical linkage betwen those functions and the above instructions, so if you need a different name or location you will have to change both. This is a chicken/egg problem that would require a file edit and commmit during the setup to solve. In my opinion it is not worth the complexity.
 
 There isn't currently an included `.bashrc`. I need to write one and then DRY things out.
 
