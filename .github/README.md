@@ -37,6 +37,6 @@ I've been managing the account configuration files for my systems for over three
 
 The idea of using a bare git repository and a disconnected workdir came from this blog post:
 
-> (Harfang's Perch)[https://harfangk.github.io/2016/09/18/manage-dotfiles-with-a-git-bare-repository.html]
+(Harfang's Perch)[https://harfangk.github.io/2016/09/18/manage-dotfiles-with-a-git-bare-repository.html]
 
 I tried, but couldn't make my hands type `dotfiles` when passing command arguments via an allias. That's a reasonable approach, but the gold here is the bare repo part. I eventually decided that editing dotfiles was a **mode** and implemented shell functions to enter and exit that mode.
