@@ -1,23 +1,34 @@
+;;
 ;; Sigh. Now I've got to have an Emacs init.
+;;
 
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((python . t)))
+;; Set-up the elisp package manager
+(require 'package) ; package-archives must exist to be added to
+(require 'use-package)
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
-;; Enable elisp package manager
-(require 'package)
-(add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
 
-;; Markdown Mode
-(setq markdown-open-command "~/bin/marked")
+;; Configure the packages I use
+(use-package format-all)
+(use-package markdown-mode
+  :hook (markdown-mode . auto-fill-mode)
+  :config (setq markdown-open-command "~/bin/marked"))
+(use-package python-mode)
+(use-package yaml-mode)
 
-(setq markdown-soma--render-buffer-hooks
-  '(after-revert-hook
-    after-save-hook
-    after-change-functions
-    post-command-hook))
+
+;; evaluate for future use
+;(use-package obsidian)
+
+;; find corret markdown-mode versions and move to use-package
+;(setq markdown-soma--render-buffer-hooks
+;  '(after-revert-hook
+;    after-save-hook
+;    after-change-functions
+;    post-command-hook))
+
 ```
 
 ;; Increase default display font size
@@ -27,7 +38,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(markdown-soma ansible yaml-mode markdown-mode)))
+ '(package-selected-packages nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
