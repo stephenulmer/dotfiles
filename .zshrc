@@ -75,6 +75,7 @@ export ANSIBLE_DEPRECATION_WARNINGS=False
 export VAGRANT_DEFAULT_PROVIDER="parallels"
 export VAGRANT_DOTFILE_PATH="${HOME}/Virtual Machines.localized/Vagrant"
 export PATH="${HOME}/bin:$PATH"
+export SUDO_ASKPASS="${HOME}/bin/op-sudo"
 
 
 ##

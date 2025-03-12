@@ -1,0 +1,9 @@
+#!/bin/sh
+##
+##
+
+WHO=$(whoami)
+WHERE=$(hostname -s)
+
+# search based on item name (can to @)
+op item get "${WHO}@${WHERE}" --fields password --format json | jq --raw-output .value
