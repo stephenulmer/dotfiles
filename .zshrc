@@ -72,7 +72,6 @@ nopyenv () {
 ## Micellaneous
 ##
 export ANSIBLE_DEPRECATION_WARNINGS=False
-export ANSIBLE_STDOUT_CALLBACK=yaml
 export VAGRANT_DEFAULT_PROVIDER="parallels"
 export VAGRANT_DOTFILE_PATH="${HOME}/Virtual Machines.localized/Vagrant"
 export PATH="${HOME}/bin:$PATH"
