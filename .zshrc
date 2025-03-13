@@ -69,16 +69,6 @@ nopyenv () {
 
 
 ##
-## Micellaneous
-##
-export ANSIBLE_DEPRECATION_WARNINGS=False
-export VAGRANT_DEFAULT_PROVIDER="parallels"
-export VAGRANT_DOTFILE_PATH="${HOME}/Virtual Machines.localized/Vagrant"
-export PATH="${HOME}/bin:$PATH"
-export SUDO_ASKPASS="${HOME}/bin/op-sudo"
-
-
-##
 ## Find homebrew installation
 ##
 if [ -f ${HOME}/.homebrew/bin/brew ] ; then
@@ -102,4 +92,20 @@ if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
 ##
 if [ -f ${HOME}/.config/op/plugins.sh ] ; then
   source ${HOME}/.config/op/plugins.sh
+fi
+
+
+##
+## Micellaneous
+##
+export ANSIBLE_DEPRECATION_WARNINGS=False
+export VAGRANT_DEFAULT_PROVIDER="parallels"
+export VAGRANT_DOTFILE_PATH="${HOME}/Virtual Machines.localized/Vagrant"
+export PATH="${HOME}/bin:$PATH"
+
+## Connect sudo(8) to 1Password
+if [ -x "${HOME}/bin/op-sudo" ] &&
+   [ -n "$(command -v op)" ] &&
+   [ -n "$(command -v jq)" ] ; then
+  export SUDO_ASKPASS="${HOME}/bin/op-sudo"
 fi
