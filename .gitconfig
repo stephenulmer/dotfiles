@@ -18,10 +18,6 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !gh auth git-credential
-[includeIf "gitdir:~/Projects/msmo/"]
-	path = ~/Projects/msmo/ck-aap/.gitconfig
-[includeIf "gitdir:~/Projects/urmc/"]
-	path = ~/Projects/urmc/.gitconfig
 [alias]
 	root = "!git rev-parse --show-toplevel;"
 	setup-allowed-signers = "!sh -c ' \
@@ -44,3 +40,9 @@
 	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 [commit]
 	gpgsign = true
+[includeIf "gitdir:~/Projects/msmo/"]
+	path = ~/Projects/msmo/ck-aap/.gitconfig
+[includeIf "gitdir:~/Projects/urmc/"]
+	path = ~/Projects/urmc/.gitconfig
+[includeIf "gitdir:~/Projects/bpic/"]
+	path = ~/Projects/bpic/.gitconfig
