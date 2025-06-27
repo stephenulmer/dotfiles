@@ -22,7 +22,11 @@
 	root = "!git rev-parse --show-toplevel;"
 	setup-allowed-signers = "!sh -c ' \
 	  signers=$(git rev-parse --git-dir)/allowed_signers ; \
-	  echo "$(git config user.email) $(git config user.signingkey)" > ${signers} ; \
+	  myline=\"$(git config user.email) $(git config user.signingkey)\" ; \
+	  grep \"${myline}\" ${signers} > /dev/null 2>&1 ; \
+	  if [ $? -ne 0 ] ; then \
+	    echo ${myline} >> ${signers} ; \
+	  fi ; \
           git config --local gpg.ssh.allowedSignersFile ${signers} ; \
         '"
 	contribs = "!git ls-files \
@@ -32,7 +36,7 @@
           done \
           | sort -f \
           | uniq -ic \
-		| sort -n \
+	  | sort -n \
         "
 [gpg]
 	format = ssh
