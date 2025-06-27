@@ -21,13 +21,16 @@
 [alias]
 	root = "!git rev-parse --show-toplevel;"
 	setup-allowed-signers = "!sh -c ' \
-	  signers=$(git rev-parse --git-dir)/allowed_signers ; \
+	  signers=$(git config --local gpg.ssh.allowedSignersFile) ; \
+	  if [ -z ${signers} ] ; then \
+	    signers=$(git rev-parse --git-dir)/allowed_signers ; \
+            git config --local gpg.ssh.allowedSignersFile ${signers} ; \
+	  fi ; \
 	  myline=\"$(git config user.email) $(git config user.signingkey)\" ; \
 	  grep \"${myline}\" ${signers} > /dev/null 2>&1 ; \
 	  if [ $? -ne 0 ] ; then \
 	    echo ${myline} >> ${signers} ; \
 	  fi ; \
-          git config --local gpg.ssh.allowedSignersFile ${signers} ; \
         '"
 	contribs = "!git ls-files \
 	  | while read f; do \
