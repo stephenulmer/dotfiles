@@ -1,0 +1,27 @@
+#!/bin/sh
+##
+## Report all requested software managed by Homebrew.
+##
+
+## Report format
+JQ_FILTER_FORMULA='.formulae[] | "name: \(.name)\ndesc: \(.desc)\npage: \(.homepage)\nvers: \(.linked_keg)\n"'
+JQ_FILTER_CASKS='.casks[] | "name: \(.token)\ndesc: \(.desc)\npage: \(.homepage)\nvers: \(.version)\n"'
+
+## Get list of installed packages
+INST_FORMULA=$(brew list --installed-on-request)
+INST_DEPENDS=$(brew list --installed-as-dependency)
+INST_CASKS=$(brew list --casks)
+
+## Query Homebrew about installed packages and format
+brew info --formula ${INST_FORMULA} --json=v2 | jq -r "${JQ_FILTER_FORMULA}"
+brew info --casks ${INST_CASKS} --json=v2 | jq -r "${JQ_FILTER_CASKS}"
+
+if [ "$#" -eq 0 ] ; then
+  exit 0
+fi
+
+echo "**********************************************************************************************"
+echo "The following software was automatically installed as requirements for the requested packages."
+echo "**********************************************************************************************"
+echo ""
+brew info --formula ${INST_DEPENDS} --json=v2 | jq -r "${JQ_FILTER_FORMULA}"
