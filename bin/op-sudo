@@ -1,9 +1,18 @@
 #!/bin/sh
 ##
+## Glue so 1Password can provide the user's password to sudo -A.
+##
+## This allows the use of TouchID to authenticate sudo(8).
 ##
 
+## The 1Password object is named ${WHO}@${WHERE}.
 WHO=$(whoami)
 WHERE=$(hostname -s)
 
-# search based on item name (can to @)
-op item get "${WHO}@${WHERE}" --fields password --format json | jq --raw-output .value
+## *Sometimes* the PATH gets re-written, but not all of the time(!).
+## Find the full path to each program and use that.
+OP=$(command -v op)
+JQ=$(command -v jq)
+
+# Lookup 1Password item based on name, and output password field.
+${OP} item get "${WHO}@${WHERE}" --fields password --format json | ${JQ} --raw-output .value
