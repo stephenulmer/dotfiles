@@ -41,6 +41,8 @@
           | uniq -ic \
 	  | sort -n \
         "
+	logg = log --all --graph --decorate=full --show-signature
+	logs = log --all --graph --decorate=short --oneline
 [gpg]
 	format = ssh
 [gpg "ssh"]
