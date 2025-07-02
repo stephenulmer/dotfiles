@@ -11,8 +11,8 @@ WHERE=$(hostname -s)
 
 ## *Sometimes* the PATH gets re-written, but not all of the time(!).
 ## Find the full path to each program and use that.
-OP=$(command -v op)
-JQ=$(command -v jq)
+OP=$(command -v op); : ${OP:=/opt/homebrew/bin/op}
+JQ=$(command -v jq); : ${JQ:=/opt/homebrew/bin/jq}
 
 # Lookup 1Password item based on name, and output password field.
 ${OP} item get "${WHO}@${WHERE}" --fields password --format json | ${JQ} --raw-output .value
