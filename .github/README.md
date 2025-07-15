@@ -30,7 +30,7 @@ There isn't currently an included `.bashrc`. I need to write one and then DRY th
 
 ## Motivation
 
-I've been managing the account configuration files for my systems for over three decades. In some form or another there have been m4 macros, "The World's Longest Login (tm)" aka a *complete* .cshrc, symlinks into a CVS repo checkout that eventually became a repo in my private Subversion server. Before git, there as even a period of, "Screw it, here's a tarball."
+I've been managing the account configuration files for my systems for over three decades. In some form or another there have been m4 macros, "The World's Longest Login (tm)" aka a *complete* .cshrc, symlinks into a CVS repo checkout that eventually became a repo in my private Subversion server. Before git, there was even a period of, "Screw it, here's a tarball."
 
 
 ## Foundation of Others' Work
