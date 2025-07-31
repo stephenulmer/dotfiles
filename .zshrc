@@ -101,6 +101,7 @@ fi
 export ANSIBLE_DEPRECATION_WARNINGS=False
 export VAGRANT_DEFAULT_PROVIDER="parallels"
 export PATH="${HOME}/bin:$PATH"
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES  # Required for Python sometimes
 
 ## Connect sudo(8) to 1Password
 if [ -x "${HOME}/bin/op-sudo" ] &&
