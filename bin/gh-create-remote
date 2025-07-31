@@ -1,0 +1,22 @@
+#!/bin/sh
+##
+## Create repository on GitHub for repository in $PWD
+##
+
+GH=$(which gh)
+if [ $? != 0 ] ; then
+  echo "This script depends on the GitHub CLI (gh)"
+  exit
+fi
+
+if [ -n "$1" ] ; then
+  ORGANIZATION="$1"
+else
+  echo "GitHub Organizations"
+  ${GH} org list
+  echo ""
+  echo "usage: $0 GitHub-organization-name"
+  exit
+fi
+
+gh repo create $ORGANIZATION/$(basename $PWD).git --private --source=. --remote=github --push
