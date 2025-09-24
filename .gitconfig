@@ -1,23 +1,26 @@
-# This is Git's per-user configuration file.
+##
+## Identity and Credentials
+##
 [user]
 	name = Stephen Ulmer
 	email = ulmer@ulmer.org
 	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL678Vyxez0NwOwQ2EdHYuu57m4aIdLQDBonl4wnC1WX
-[push]
-	followTags = true
+
+##
+## sub-command (behavioral) defaults
+##
+[commit]
+	gpgsign = true
 [init]
 	defaultBranch = main
-[filter "lfs"]
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-[credential "https://github.com"]
-	helper = 
-	helper = !gh auth git-credential
-[credential "https://gist.github.com"]
-	helper = 
-	helper = !gh auth git-credential
+[push]
+	followTags = true
+[stash]
+	showIncludeUntracked = true
+
+##
+##
+##
 [alias]
 	root = "!git rev-parse --show-toplevel;"
 	setup-allowed-signers = "!sh -c ' \
@@ -43,12 +46,29 @@
         "
 	logg = log --all --graph --decorate=full --show-signature
 	logs = log --all --graph --decorate=short --oneline
+
+##
+## Helpers and Filters
+##
+[credential "https://github.com"]
+	helper = 
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !gh auth git-credential
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
 [gpg]
 	format = ssh
 [gpg "ssh"]
 	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
-[commit]
-	gpgsign = true
+
+##
+## include client-specific configuration
+##
 [includeIf "gitdir:~/Projects/msmo/"]
 	path = ~/Projects/msmo/ck-aap/.gitconfig
 [includeIf "gitdir:~/Projects/urmc/"]
