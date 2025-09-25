@@ -22,7 +22,8 @@
 ##
 ##
 [alias]
-	root = "!git rev-parse --show-toplevel;"
+	root = rev-parse --show-toplevel
+	repo = "!basename $(git root);"
 	setup-allowed-signers = "!sh -c ' \
 	  signers=$(git config --local gpg.ssh.allowedSignersFile) ; \
 	  if [ -z ${signers} ] ; then \
@@ -46,6 +47,7 @@
         "
 	logg = log --all --graph --decorate=full --show-signature
 	logs = log --all --graph --decorate=short --oneline
+	weekly = "!echo \"===> $(git repo)\" && git log --since='last week Sunday' --pretty='format:%cs %h %s'"
 
 ##
 ## Helpers and Filters
