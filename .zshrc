@@ -99,6 +99,7 @@ fi
 ## Micellaneous
 ##
 export ANSIBLE_DEPRECATION_WARNINGS=False
+export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 export VAGRANT_DEFAULT_PROVIDER="parallels"
 export PATH="${HOME}/bin:$PATH"
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES  # Required for Python sometimes
