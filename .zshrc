@@ -105,7 +105,6 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES  # Required for Python sometimes
 
 ## Connect sudo(8) to 1Password
 if [ -x "${HOME}/bin/op-sudo" ] &&
-   [ -n "$(command -v op)" ] &&
-   [ -n "$(command -v jq)" ] ; then
+   [ -n "$(command -v op)" ] ; then
   export SUDO_ASKPASS="${HOME}/bin/op-sudo"
 fi
