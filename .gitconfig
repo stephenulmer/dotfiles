@@ -24,6 +24,46 @@
 [alias]
 	root = rev-parse --show-toplevel
 	repo = "!basename $(git root);"
+
+	# replacement for for-each-repo that prints each repo
+	# before running command
+	#   $1 = muti-value variable with list of WORKDIRs
+	#   $@:2 = git command and arguments for each repo
+	foreach = "! f() { \
+	  for r in $(git config get --all ${1}); do \
+	    d=$(eval echo ${r}); \
+	    echo \"\n===> $(git -C ${d} repo)\"; \
+	    git -C ${d} ${@:2}; \
+	  done }; f"
+
+	# update the project repo list in ~/.gitconfig-projects
+	# starts at project.$1.top, finds all git repos, adds an entry
+	# for project.$1.repo for each one
+	update-repo = "! f() { \
+	  top=$(eval echo $(git config --get project.$1.top)); \
+	  repos=$(find ${top} -type d -name .git); \
+	  cfile=$(eval echo ~/.gitconfig-projects); \
+	  git config unset --file ${cfile} --all project.$1.repo; \
+	  for repo in ${repos}; do \
+	    git config set --file ${cfile} --append project.$1.repo $(dirname ${repo}); \
+	  done }; f"
+
+	# set up a project in ~/.gitconfig-projects
+	#   [alias]
+	#   [project "$1"]
+	#   [includeIf "gitdir:~/.gitconfig-$2"]
+	# parameters:
+	#   $1 = project name (slug)
+	#   $2 = (optional) ~/.gitconfig-* file suffix to include
+	update-top = "! f() { \
+	  cfile=$(eval echo ~/.gitconfig-projects); \
+	  ifile=$(eval echo ~/.gitconfig-$2); \
+	  git config set --file ${cfile} alias.$1 \"foreach project.$1.repo\"; \
+	  git config set --file ${cfile} project.$1.top $(pwd); \
+	  if [ -f "~/.gitconfig-$2" ]; then \
+	    git config set --file ${cfile} includeIf.gitdir:$(pwd).path ${ifile}; \
+	  fi; \
+	  }; f"
 	setup-allowed-signers = "!sh -c ' \
 	  signers=$(git config --local gpg.ssh.allowedSignersFile) ; \
 	  if [ -z ${signers} ] ; then \
@@ -47,7 +87,8 @@
         "
 	logg = log --all --graph --decorate=full --show-signature
 	logs = log --all --graph --decorate=short --oneline
-	weekly = "!echo \"===> $(git repo)\" && git log --since='last week Sunday' --pretty='format:%cs %h %s'"
+	weekly = "log --since='last week Sunday' --pretty='format:%cs %h %s'"
+	mains = "branch -av --list '*main' '*master'"
 
 ##
 ## Helpers and Filters
@@ -69,11 +110,7 @@
 	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 
 ##
-## include client-specific configuration
+## include project-specific configuration
 ##
-[includeIf "gitdir:~/Projects/msmo/"]
-	path = ~/Projects/msmo/ck-aap/.gitconfig
-[includeIf "gitdir:~/Projects/urmc/"]
-	path = ~/Projects/urmc/.gitconfig
-[includeIf "gitdir:~/Projects/bpic/"]
-	path = ~/Projects/bpic/.gitconfig
+[include]
+	path = ~/.gitconfig-projects
