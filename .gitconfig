@@ -32,7 +32,9 @@
 	foreach = "! f() { \
 	  for r in $(git config get --all ${1}); do \
 	    d=$(eval echo ${r}); \
-	    echo \"\n===> $(git -C ${d} repo)\"; \
+	    t=$(git config get $(echo ${1} | cut -d. -f1-2).top); \
+	    b=${d#$t/}; \
+	    echo \"\n===> ${b}\"; \
 	    git -C ${d} ${@:2}; \
 	  done }; f"
 
