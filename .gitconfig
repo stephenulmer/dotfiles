@@ -68,7 +68,7 @@
 	  signers=$(git config --local gpg.ssh.allowedSignersFile) ; \
 	  if [ -z ${signers} ] ; then \
 	    signers=$(git rev-parse --git-dir)/allowed_signers ; \
-            git config --local gpg.ssh.allowedSignersFile ${signers} ; \
+	    git config --local gpg.ssh.allowedSignersFile ${signers} ; \
 	  fi ; \
 	  myline=\"$(git config user.email) $(git config user.signingkey)\" ; \
 	  grep \"${myline}\" ${signers} > /dev/null 2>&1 ; \
