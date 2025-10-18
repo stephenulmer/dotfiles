@@ -1,0 +1,119 @@
+##
+## .commonrc
+##
+## (c) 2020-2025 Stephen L. Ulmer
+##
+## Shell configuration sourceable by both bash and zsh.
+##
+
+
+##
+## dotfile mode
+##
+## Set-up environment so that git(1) uses a private repodir and uses
+## $HOME as the working tree.
+##
+
+## start dotfile mode
+dotfilemode () {
+  export GIT_DIR=$HOME/.dotfiles
+  export GIT_WORK_TREE=$HOME
+  precmd () {
+    echo '===> DOTFILE MODE'
+  }
+}
+
+## stop dotfile mode
+nodotfilemode () {
+  unset GIT_DIR
+  unset GIT_WORK_TREE
+  unset -f precmd
+}
+
+
+##
+## Helpful functions
+##
+
+## Grep entire history
+hgrep () {
+  fc -Dlim "*$@*" 1
+}
+
+## Remove a component from the curent PATH
+path_remove () {
+  PATH=$(echo $PATH | tr '\n' '*' | tr ':' '\n' | grep -v "${1}" | tr '\n' ':' | cut -d '*' -f 1)
+}
+
+## Add a component to the end of the current PATH
+path_append () {
+  if [ -d "${1}" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+    export PATH="${PATH}:${1}"
+  fi
+}
+
+## Add a component to the beginning of the current PATH
+path_prepend () {
+  if [ -d "${1}" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+    export PATH="${1}:${PATH}"
+  fi
+}
+
+## Turn off pyenv in the current shell
+nopyenv () {
+  unset -f pyenv
+  unset -f _pyenv
+  unset -f _pyenv_virtualenv_hook
+  path_remove pyenv
+}
+
+
+##
+## Find homebrew installation
+##
+if [ -f ${HOME}/.homebrew/bin/brew ] ; then
+  eval "$(${HOME}/.homebrew/bin/brew shellenv)"
+elif [ -f /opt/homebrew/bin/brew ] ; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+
+##
+## Enable Python, Ruby, Perl virtualenv shims
+##
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
+
+
+##
+## Load OnePassword CLI plugins
+##
+if [ -f ${HOME}/.config/op/plugins.sh ] ; then
+  source ${HOME}/.config/op/plugins.sh
+fi
+
+
+##
+## Micellaneous
+##
+export ANSIBLE_DEPRECATION_WARNINGS=False
+export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+export VAGRANT_DEFAULT_PROVIDER="parallels"
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES  # Required for Python on macOS sometimes
+
+
+##
+## PATH Additions
+##
+path_prepend ${HOME}/.local/bin
+path_prepend ${HOME}/bin
+
+
+## Connect sudo(8) to 1Password
+if [ -x "${HOME}/bin/op-sudo" ] &&
+   [ -n "$(command -v op)" ] ; then
+  export SUDO_ASKPASS="${HOME}/bin/op-sudo"
+fi
+
