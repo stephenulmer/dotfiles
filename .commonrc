@@ -85,10 +85,10 @@ fi
 ##
 ## Enable Python, Ruby, Perl virtualenv shims
 ##
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
+if command -v pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+if command -v pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+if command -v rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+if command -v plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
 
 
 ##
