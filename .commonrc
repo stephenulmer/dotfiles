@@ -18,16 +18,20 @@
 dotfilemode () {
   export GIT_DIR=$HOME/.dotfiles
   export GIT_WORK_TREE=$HOME
-  precmd () {
-    echo '===> DOTFILE MODE'
-  }
+  if [ -z "${DOTFILE_PS1}" ] ; then
+    DOTFILE_PS1="${PS1}"
+    PS1="===> DOTFILE MODE${NEWLINE}${DOTFILE_PS1}"
+  fi
 }
 
 ## stop dotfile mode
 nodotfilemode () {
   unset GIT_DIR
   unset GIT_WORK_TREE
-  unset -f precmd
+  if [ -n "${DOTFILE_PS1}" ] ; then
+    PS1="${DOTFILE_PS1}"
+    unset DOTFILE_PS1
+  fi
 }
 
 
@@ -98,6 +102,7 @@ fi
 ##
 ## Micellaneous
 ##
+export NEWLINE=$'\n'
 export ANSIBLE_DEPRECATION_WARNINGS=False
 export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 export VAGRANT_DEFAULT_PROVIDER="parallels"
