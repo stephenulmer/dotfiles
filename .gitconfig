@@ -110,6 +110,13 @@
 	format = ssh
 [gpg "ssh"]
 	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[diff "pandoc"]
+	textconv = pandoc --to=markdown
+	prompt = false
+[diff "pdftotext"]
+	# using the shell is necessary to reverse the order of arguments
+	textconv = sh -c 'pdftotext -layout -enc UTF-8 "$1" -' --
+	prompt = false
 
 ##
 ## include project-specific configuration
