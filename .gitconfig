@@ -41,7 +41,7 @@
 	# update the project repo list in ~/.gitconfig-projects
 	# starts at project.$1.top, finds all git repos, adds an entry
 	# for project.$1.repo for each one
-	update-repo = "! f() { \
+	update-project = "! f() { \
 	  top=$(eval echo $(git config --get project.$1.top)); \
 	  repos=$(find ${top} -type d -name .git); \
 	  cfile=$(eval echo ~/.gitconfig-projects); \
@@ -57,7 +57,7 @@
 	# parameters:
 	#   $1 = project name (slug)
 	#   $2 = (optional) ~/.gitconfig-* file suffix to include
-	update-top = "! f() { \
+	setup-project = "! f() { \
 	  cfile=$(eval echo ~/.gitconfig-projects); \
 	  ifile=$(eval echo ~/.gitconfig-$2); \
 	  git config set --file ${cfile} alias.$1 \"foreach project.$1.repo\"; \
