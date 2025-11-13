@@ -63,7 +63,7 @@
 	  git config set --file ${cfile} alias.$1 \"foreach project.$1.repo\"; \
 	  git config set --file ${cfile} project.$1.top $(pwd); \
 	  if [ -f "~/.gitconfig-$2" ]; then \
-	    git config set --file ${cfile} includeIf.gitdir:$(pwd).path ${ifile}; \
+	    git config set --file ${cfile} includeIf.gitdir:$(pwd)/.path ${ifile}; \
 	  fi; \
 	  }; f"
 
