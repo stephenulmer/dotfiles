@@ -66,18 +66,43 @@
 	    git config set --file ${cfile} includeIf.gitdir:$(pwd).path ${ifile}; \
 	  fi; \
 	  }; f"
+
+	# Ensure that gpg.ssh.allowedSignersFile is configured for the current
+	# repo. If the config isn't set, use any existing files in the following
+	# order:
+	#   SIGNERS
+	#   .git/allowed_signers
+	# If none exist, use the last as a default.
 	setup-allowed-signers = "!sh -c ' \
+	  cd $(git root) ; \
+	  default=\"$(git rev-parse --git-dir)/allowed_signers\" ; \
+	  locations=\"SIGNERS ${default}\" ; \
 	  signers=$(git config --local gpg.ssh.allowedSignersFile) ; \
 	  if [ -z ${signers} ] ; then \
-	    signers=$(git rev-parse --git-dir)/allowed_signers ; \
+	    for s in ${locations} ; do \
+	      signers=${s} ; \
+	      if [ -f ${signers} ] ; then break ; fi ; \
+	    done ; \
 	    git config --local gpg.ssh.allowedSignersFile ${signers} ; \
+	  fi ; \
+	  git update-allowed-signers ; \
+	'"
+
+	# Add the currently configured ssh signing key to the
+	# file pointed to by 'gpg.ssh.allowedSignersFile'.
+	update-allowed-signers = "!sh -c ' \
+	  signers=$(git config --local gpg.ssh.allowedSignersFile) ; \
+	  if [ -z ${signers} ] ; then \
+	    echo "gpg.ssh.allowedSignersFile is not set!" ; \
+	    exit ; \
 	  fi ; \
 	  myline=\"$(git config user.email) $(git config user.signingkey)\" ; \
 	  grep \"${myline}\" ${signers} > /dev/null 2>&1 ; \
 	  if [ $? -ne 0 ] ; then \
 	    echo ${myline} >> ${signers} ; \
 	  fi ; \
-        '"
+	'"
+
 	contribs = "!git ls-files \
 	  | while read f; do \
             git blame -w -M -C -C --line-porcelain "$f" \
