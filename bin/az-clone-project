@@ -12,25 +12,31 @@ fi
 ORGANIZATION=$(${AZ} devops configure --list | awk -F' = ' '/^organization/ {print $2}')
 if [ -n "${ORGANIZATION}" ]; then
   echo "Using Azure Organization: ${ORGANIZATION}"
-  echo ""
 else
   echo "This script depends on the Azure default organization being set."
   echo ""
   echo "Set the default organization with:"
   echo "    az devops configure --defaults organization=<URL>"
+  exit 1
 fi
 
 if [ -n "$1" ] ; then
   PROJECT="$1"
 else
-  echo "Azure Projects:"
-  ${AZ} devops project list --query 'value[*].name' --output tsv | awk '{print "  " $0}'
-  echo ""
-  echo "usage: $0 Project-Name"
-  exit
+  PROJECT=$(${AZ} devops configure --list | awk -F' = ' '/^project/ {print $2}')
+  if [ -z "${PROJECT}" ] ; then
+    echo "Azure Projects:"
+    ${AZ} devops project list --query 'value[*].name' --output tsv | awk '{print "  " $0}'
+    echo ""
+    echo "usage: $0 Project-Name"
+    exit
+  else
+    echo "Using Azure DevOps Project: ${PROJECT}"
+  fi
 fi
 
 for url in $(${AZ} repos list --project=${PROJECT} --query '[].sshUrl' --output tsv) ; do
-  echo "\n=====> $url"
+  echo ""
+  echo "=====> $url"
   git clone --origin azure $url
 done
