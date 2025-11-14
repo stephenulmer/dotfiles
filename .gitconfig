@@ -134,7 +134,9 @@
 [gpg]
 	format = ssh
 [gpg "ssh"]
-	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+	## If ssh-keygen doesn't work or is too old, we can sign directly with
+	## 1Password. Otherwise, just have 1Password provide an agent socket.
+	# program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 [diff "pandoc"]
 	textconv = pandoc --to=markdown
 	prompt = false
