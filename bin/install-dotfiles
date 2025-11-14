@@ -1,0 +1,35 @@
+#!/bin/bash
+##
+## Install Ulmer's dotfiles on a remote host from
+## the GitHub repo.
+##
+## Usage:
+##   install-dotfiles <ssh arguments and options>
+##
+
+REPO_DOTFILES="git@github.com:stephenulmer/dotfiles"
+SSH_OPTIONS="-o ForwardAgent=yes" 
+
+if [ $# -lt 1 ] ; then
+  echo "No arguments?! At least specify the remote host..."
+  echo ""
+  echo "Usage:"
+  echo "    $0 <ssh arguments and options>"
+  echo ""
+  exit 1
+fi
+
+ssh ${SSH_OPTIONS} "$@" bash -s <<EOF
+git=\$(command -v git)
+if [ -z \${git} ] ; then
+  echo "NO GIT ON REMOTE HOST!"
+  exit 1
+fi
+export GIT_DIR=~/.dotfiles
+export GIT_WORK_TREE=~
+export GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no"
+git clone --bare ${REPO_DOTFILES} \${GIT_DIR}
+git checkout main .
+git config --local --bool core.bare false
+git config --local status.showUntrackedFiles no
+EOF
