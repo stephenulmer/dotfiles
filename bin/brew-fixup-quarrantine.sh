@@ -6,7 +6,7 @@
 ##   - Remove quarrantine bits on all of the files
 ##
 
-sudo -v
+sudo -Av
 
 if [ -z "$(which jq)" ] ; then
   echo "This script requires jq (JSON query CLI)."
