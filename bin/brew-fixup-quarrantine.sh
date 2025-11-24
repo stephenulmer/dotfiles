@@ -15,10 +15,10 @@ if [ -z "$(which jq)" ] ; then
 fi
 
 ## Get list of installed casks
-CASKS=$(brew cask list)
+CASKS=$(brew list --casks)
 
 ## Generate a list of artifacts
-ARTIFACTS=$(brew cask info $CASKS --json=v1 | jq '.[].artifacts[]|arrays[]|select(. | match(".app$")?)')
+ARTIFACTS=$(brew info $CASKS --json=v1 | jq '.[].artifacts[]|arrays[]|select(. | match(".app$")?)')
 
 ## For each artifact, add to Gatekeeper-approved list and remove quarrantine bits
 while IFS=$'\n' read -r line ; do
