@@ -1,27 +1,77 @@
 #!/bin/sh
 ##
-## Report all requested software managed by Homebrew.
+## Generate report of installed software.
 ##
 
-## Report format
-JQ_FILTER_FORMULA='.formulae[] | "name: \(.name)\ndesc: \(.desc)\npage: \(.homepage)\nvers: \(.linked_keg)\n"'
-JQ_FILTER_CASKS='.casks[] | "name: \(.token)\ndesc: \(.desc)\npage: \(.homepage)\nvers: \(.version)\n"'
-
-## Get list of installed packages
-INST_FORMULA=$(brew list --installed-on-request)
-INST_DEPENDS=$(brew list --installed-as-dependency)
-INST_CASKS=$(brew list --casks)
-
-## Query Homebrew about installed packages and format
-brew info --formula ${INST_FORMULA} --json=v2 | jq -r "${JQ_FILTER_FORMULA}"
-brew info --casks ${INST_CASKS} --json=v2 | jq -r "${JQ_FILTER_CASKS}"
-
-if [ "$#" -eq 0 ] ; then
-  exit 0
+BREW=$(command -v brew)
+if [ -z "${BREW}" ] ; then
+  echo "This program requires Homebrew."
+  exit 1
 fi
 
-echo "**********************************************************************************************"
-echo "The following software was automatically installed as requirements for the requested packages."
-echo "**********************************************************************************************"
-echo ""
-brew info --formula ${INST_DEPENDS} --json=v2 | jq -r "${JQ_FILTER_FORMULA}"
+while [[ $# -gt 0 ]] ; do
+  case "$1" in
+    --mas)
+      MAS=$(command -v mas)
+      if [ -n "${MAS}" ] ; then
+        DO_MAS=1
+      else
+	echo "App store reporting was requested, but mas(1) is not installed."
+	echo "Install mas withthe command:"
+	echo "    brew install mas"
+	echo ""
+	exit 1
+      fi
+      shift
+      ;;
+    --deps)
+      DO_DEPS=1
+      shift
+      ;;
+    *)
+      echo "Unknown option: $1"
+      exit 1
+      ;;
+  esac
+done
+
+## Report formats
+JQ_FILTER_FORMULA='.formulae[] | "name: \(.name)\ndesc: \(.desc)\npage: \(.homepage)\nvers: \(.linked_keg)\n"'
+JQ_FILTER_CASKS='.casks[] | "name: \(.token)\ndesc: \(.desc)\npage: \(.homepage)\nvers: \(.version)\n"'
+SED_FILTER_MAS='1{s/ *\[.*\]//; s/^/name: /; s/([.1234567890]+) *$/\nvers: \1/; p;};${s/^From: /page: /; G; p;}'
+
+## Get lists of installed packages
+INST_FORMULA=$(${BREW} list --installed-on-request)
+INST_DEPENDS=$(${BREW} list --installed-as-dependency)
+INST_CASKS=$(${BREW} list --casks)
+
+## Query Homebrew about installed packages and format
+${BREW} info --formula ${INST_FORMULA} --json=v2 | jq -r "${JQ_FILTER_FORMULA}"
+${BREW} info --casks ${INST_CASKS} --json=v2 | jq -r "${JQ_FILTER_CASKS}"
+
+
+##
+## Report all formulae installed as a dependency.
+##
+if [ -n "${DO_DEPS}" ] ; then
+  echo "**************************************************************"
+  echo "The following software was automatically installed by Homebrew"
+  echo "as dependencies of the requested packages."
+  echo "**************************************************************"
+  echo ""
+  ${BREW} info --formula ${INST_DEPENDS} --json=v2 | jq -r "${JQ_FILTER_FORMULA}"
+fi
+
+
+##
+## Report all software installed from the macOS App Store
+##
+if [ -n "${DO_MAS}" ] ; then
+  echo "**************************************************************"
+  echo "The following software was installed from the macOS App Store."
+  echo "**************************************************************"
+  echo ""
+  for app in $(${MAS} list | awk '{print $1}') ; do
+    ${MAS} info ${app} | sed -E -n "${SED_FILTER_MAS}"
+  done
+fi
