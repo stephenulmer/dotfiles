@@ -1,0 +1,23 @@
+#!/bin/bash
+##
+## Upload Videos to YouTube
+##
+
+if [ -f .yt-playlist ] ; then
+  playlistARG="-playlistID $(cat .yt-playlist)"
+else
+  echo "No .yt-playlist file found. Not adding to a playlist."
+fi
+
+all_MP4s=(*.MP4)
+ARGV=( "${@:-${all_MP4s[@]}}" )
+for s in "${ARGV[@]}" ; do
+  #title=$(basename ${s} .MP4 | tr '_' ' ') 
+  title=$(basename ${s} | sed -e 's/.MP4$//g' -e 's/_[FU]HD//g' -e 's/_/ /g' ) 
+  youtubeuploader -filename "${s}" \
+    -title "${title}" \
+    -description "${title}" \
+    ${playlistARG:- } \
+    -metaJSONout "$(basename ${s} .MP4).JSON" \
+    -notify false
+done

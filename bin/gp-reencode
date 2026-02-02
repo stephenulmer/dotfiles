@@ -1,0 +1,22 @@
+#!/bin/bash
+##
+## Reencode GoPro video to 1080p w/ Apple HEVC Hardware Encoding
+##
+
+FFMPEG=$(command -v ffmpeg)
+if [ -z "${FFMPEG}" ] ; then
+  echo "This script requires ffmpeg."
+  exit 1
+fi
+
+outdir="../FHD"
+all_MP4s=(*.MP4)
+ARGV=( "${@:-${all_MP4s[@]}}" )
+for s in "${ARGV[@]}" ; do
+  t=$(basename $s '_UHD.MP4')
+  if [ -f "${outdir}/${t}_FHD.MP4" ] ; then
+    echo "Skipping ${s}, target exists"
+  else
+    ffmpeg -i "$s" -vf scale=-2:1080 -c:v hevc_videotoolbox -tag:v hvc1 -c:a copy "${outdir}/${t}_FHD.MP4"
+  fi
+done

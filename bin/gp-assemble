@@ -1,0 +1,29 @@
+#!/bin/sh
+##
+## Concatenate Gopro video chapters into a single file
+##
+
+FFMPEG=$(command -v ffmpeg)
+if [ -z "${FFMPEG}" ] ; then
+  echo "This script requires ffmpeg."
+  exit 1
+fi
+
+outdir="../UHD"
+vidfile=$(mktemp .gopro_videos.XXXXXX)
+ls -1 G*.MP4 | sed -E -e 's@(G[XHL][[:digit:]]{2}([[:digit:]]{4}))@\2 \1@g' > ${vidfile}
+for vid in $(cut -w -f1 ${vidfile} | sort | uniq) ; do
+  if [ -f "${outdir}/${vid}.MP4" ] ; then
+    echo "Skipping vid=${vid}, target exists"
+    continue
+  else
+    echo "Processing vid=${vid}"
+    confile=$(mktemp .gopro_concat.XXXXXX)
+    awk -v re="^${vid}" -v sq="'" '$1 ~ re { print "file " sq $2 sq }' ${vidfile} > ${confile}
+    echo "  including files:"
+    sed -e 's/^/    /' ${confile}
+    ${FFMPEG} -f concat -safe 0 -i ${confile} -c copy "${outdir}/${vid}.MP4"
+    rm -f ${confile}
+  fi
+done
+rm -f ${vidfile}
