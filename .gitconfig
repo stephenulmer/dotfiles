@@ -4,7 +4,7 @@
 [user]
 	name = Stephen Ulmer
 	email = ulmer@ulmer.org
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL678Vyxez0NwOwQ2EdHYuu57m4aIdLQDBonl4wnC1WX
+	signingkey = key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL678Vyxez0NwOwQ2EdHYuu57m4aIdLQDBonl4wnC1WX
 
 ##
 ## sub-command (behavioral) defaults
