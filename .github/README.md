@@ -23,7 +23,7 @@ I used to have a private repo, not hosted anywhere and transported with `git bun
 
 ## Known Defects
 
-The `dotfilemode` and `nodotfilemode` functions (in the `.zshrc`) use `GIT_GIR=${HOME}/.dotfiles`. There is no technical linkage betwen those functions and the above instructions, so if you need a different name or location you will have to change both. This is a chicken/egg problem that would require a file edit and commmit during the setup to solve. In my opinion it is not worth the complexity.
+The `dotfilemode` and `nodotfilemode` functions (in the `.commonrc`) use `GIT_GIR=${HOME}/.dotfiles`. There is no technical linkage betwen those functions and the above instructions, so if you need a different name or location you will have to change both. This is a chicken/egg problem that would require a file edit and commmit during the setup to solve. In my opinion it is not worth the complexity.
 
 
 ## Motivation
