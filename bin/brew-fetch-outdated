@@ -1,0 +1,12 @@
+#!/bin/bash
+##
+## Download Homebrew-managed software
+##
+
+echo "Collecting outdated software information"
+OUTDATED=$(brew outdated --greedy --json)
+FORMULAE=$(echo ${OUTDATED} | jq -r '.formulae[].name')
+CASKS=$(echo ${OUTDATED} | jq -r '.casks[].name')
+
+echo "Downloading software for update"
+brew fetch ${FORMULAE} ${CASKS}
