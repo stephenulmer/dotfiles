@@ -9,7 +9,7 @@ if [ -z "${FFMPEG}" ] ; then
   exit 1
 fi
 
-outdir="../UHD"
+outdir="../../UHD"
 vidfile=$(mktemp .gopro_videos.XXXXXX)
 ls -1 G*.MP4 | sed -E -e 's@(G[XHL][[:digit:]]{2}([[:digit:]]{4}))@\2 \1@g' > ${vidfile}
 for vid in $(cut -w -f1 ${vidfile} | sort | uniq) ; do
