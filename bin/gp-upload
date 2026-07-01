@@ -3,6 +3,12 @@
 ## Upload Videos to YouTube
 ##
 
+YTUL=$(command -v youtubeuploader)
+if [ -z "${YTUL}" ] ; then
+  echo "This script requires youtubeuploader."
+  exit 1
+fi
+
 if [ -f .yt-playlist ] ; then
   playlistARG="-playlistID $(cat .yt-playlist)"
 else
@@ -14,7 +20,7 @@ ARGV=( "${@:-${all_MP4s[@]}}" )
 for s in "${ARGV[@]}" ; do
   #title=$(basename ${s} .MP4 | tr '_' ' ') 
   title=$(basename ${s} | sed -e 's/.MP4$//g' -e 's/_[FU]HD//g' -e 's/_/ /g' ) 
-  youtubeuploader -filename "${s}" \
+  ${YTUL} -filename "${s}" \
     -title "${title}" \
     -description "${title}" \
     ${playlistARG:- } \
