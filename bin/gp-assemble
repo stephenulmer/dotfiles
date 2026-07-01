@@ -9,7 +9,19 @@ if [ -z "${FFMPEG}" ] ; then
   exit 1
 fi
 
-outdir="../../UHD"
+for d in '../UHD' '../../UHD' ; do
+  if [ -d "$d" ] ; then
+    outdir="../../UHD"
+    break
+  fi
+done
+if [ -s "${outdir}" ] ; then
+  echo "Assembled files in ${outdir}"
+else
+  echo "No existing output directory (UHD) found!"
+  exit
+fi
+
 vidfile=$(mktemp .gopro_videos.XXXXXX)
 ls -1 G*.MP4 | sed -E -e 's@(G[XHL][[:digit:]]{2}([[:digit:]]{4}))@\2 \1@g' > ${vidfile}
 for vid in $(cut -w -f1 ${vidfile} | sort | uniq) ; do
