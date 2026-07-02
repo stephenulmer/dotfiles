@@ -11,7 +11,7 @@ fi
 
 for d in '../UHD' '../../UHD' ; do
   if [ -d "$d" ] ; then
-    outdir="../../UHD"
+    outdir=$d
     break
   fi
 done
