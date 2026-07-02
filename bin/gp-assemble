@@ -9,7 +9,7 @@ if [ -z "${FFMPEG}" ] ; then
   exit 1
 fi
 
-for d in '../UHD' '../../UHD' ; do
+for d in 'UHD' '../UHD' '../../UHD' ; do
   if [ -d "$d" ] ; then
     outdir=$d
     break
