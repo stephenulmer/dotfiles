@@ -2,6 +2,11 @@
 ##
 ## Concatenate Gopro video chapters into a single file
 ##
+## Only copy audio/video
+##    ${FFMPEG} -f concat -safe 0 -i ${confile} -c copy "${outdir}/${vid}.MP4"
+##
+## Attempt to copy GoPro metadata stream
+##    ${FFMPEG} -analyzeduration 100M -probesize 100M -f concat -safe 0 -i ${confile} -c copy -map 0:v -map 0:a -map 0:d? -copy_unknown -tag:d gpmd "${outdir}/${vid}.MP4"
 
 FFMPEG=$(command -v ffmpeg)
 if [ -z "${FFMPEG}" ] ; then
@@ -34,7 +39,7 @@ for vid in $(cut -w -f1 ${vidfile} | sort | uniq) ; do
     awk -v re="^${vid}" -v sq="'" '$1 ~ re { print "file " sq $2 sq }' ${vidfile} > ${confile}
     echo "  including files:"
     sed -e 's/^/    /' ${confile}
-    ${FFMPEG} -f concat -safe 0 -i ${confile} -c copy "${outdir}/${vid}.MP4"
+    ${FFMPEG} -analyzeduration 100M -probesize 100M -f concat -safe 0 -i ${confile} -c copy -map 0:v -map 0:a -map 0:d? -copy_unknown -tag:d gpmd "${outdir}/${vid}.MP4"
     rm -f ${confile}
   fi
 done
