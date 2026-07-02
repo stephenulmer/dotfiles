@@ -16,7 +16,7 @@ for d in 'UHD' '../UHD' '../../UHD' ; do
   fi
 done
 if [ -s "${outdir}" ] ; then
-  echo "Assembled files in ${outdir}"
+  echo "Assembling files in ${outdir}"
 else
   echo "No existing output directory (UHD) found!"
   exit
