@@ -1,0 +1,23 @@
+#!/bin/bash
+##
+##
+##
+
+if [ ! -f 'inventory.yml' ] ; then
+  echo ""
+  echo "ERROR: No inventory.yml found!"
+  echo "$0 -- must be run from from the macos-setup-ansible git repo."
+  echo ""
+  exit 1
+fi
+
+echo "Packages:"
+diff <(yq  '.macos.vars.homebrew_installed_packages[]' inventory.yml | sort) \
+     <(brew list --installed-on-request --full-name | sort) \
+     | grep '[<>]'
+
+echo ""
+echo "Casks:"
+diff <(yq  '.macos.vars.homebrew_cask_apps[]' inventory.yml | sort) \
+     <(brew list --casks --full-name | sort) \
+     | grep '[<>]'
