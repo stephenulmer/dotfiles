@@ -18,12 +18,17 @@ fi
 all_MP4s=(*.MP4)
 ARGV=( "${@:-${all_MP4s[@]}}" )
 for s in "${ARGV[@]}" ; do
-  #title=$(basename ${s} .MP4 | tr '_' ' ') 
-  title=$(basename ${s} | sed -e 's/.MP4$//g' -e 's/_[FU]HD//g' -e 's/_/ /g' ) 
-  ${YTUL} -filename "${s}" \
-    -title "${title}" \
-    -description "${title}" \
-    ${playlistARG:- } \
-    -metaJSONout "$(basename ${s} .MP4).JSON" \
-    -notify false
+  #json=${s%.MP4}.JSON
+  json="$(basename ${s} .MP4).JSON"
+  if [ -f "${json}" ]; then
+    echo "${json} exits; Skipping ${s}"
+  else
+    title=$(basename ${s} | sed -e 's/.MP4$//g' -e 's/_[FU]HD//g' -e 's/_/ /g' ) 
+    ${YTUL} -filename "${s}" \
+      -title "${title}" \
+      -description "${title}" \
+      ${playlistARG:- } \
+      -metaJSONout "${json}" \
+      -notify false
+  fi
 done
